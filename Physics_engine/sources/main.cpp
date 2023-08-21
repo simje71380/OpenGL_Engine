@@ -6,6 +6,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "common/shader.hpp"
+
 
 int main(void)
 {
@@ -41,19 +43,36 @@ int main(void)
     /*Triangle triangle("shaders/SimpleVertexShader.glsl", "shaders/SimpleFragmentShader.glsl");
     Triangle triangle2("shaders/SimpleVertexShader.glsl", "shaders/SimpleFragmentShader2.glsl");*/
 
-    float positions[6]{
+    float positions[8]{
         -0.5f, -0.5f,
-         0.0f,  0.5f,
          0.5f, -0.5f,
+         0.5f,  0.5f,
+        -0.5f,  0.5f
+    };
+
+    unsigned int indices[]{
+        0, 1, 2,
+        2, 3, 0
     };
 
     unsigned int bufferID; //ID of a vertex buffer
     glGenBuffers(1, &bufferID); //create one buffer and return the ID into bufferID
     glBindBuffer(GL_ARRAY_BUFFER, bufferID); //say to open GL we are talk about the "bufferID" buffer
-    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), positions, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0); //active le layout du vertex
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0); //specify how is the layout of the vertex (coords, UV coords,...)
+
+    unsigned int ibo; //ID of index buffer
+    glGenBuffers(1, &ibo); //create one buffer and return the ID into ibo
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); //say to open GL we are talk about the "ibo" buffer
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+
+
+    //shading
+    unsigned int prog_id = LoadShaders("res/shaders/SimpleVertexShader.glsl", "res/shaders/SimpleFragmentShader.glsl");
+    glUseProgram(prog_id); //set drawing with this shader (vertex + frag)
+
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -63,8 +82,8 @@ int main(void)
 
 
         //glBindBuffer(GL_ARRAY_BUFFER, 0); //bind to None -> nothing will be drawn
-        glDrawArrays(GL_TRIANGLES, 0, 3); //without index buffer
-        //glDrawElements(GL_TRIANGLES, 3, typeof(index_buffer), index_buffer); //with index buffer
+        //glDrawArrays(GL_TRIANGLES, 0, 3); //without index buffer
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr); //with index buffer   6->number of indices
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
