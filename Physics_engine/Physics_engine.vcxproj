@@ -146,12 +146,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="common\shader.cpp" />
+    <ClCompile Include="sources\Camera.cpp" />
+    <ClCompile Include="sources\Cube.cpp" />
+    <ClCompile Include="sources\IndexBuffer.cpp" />
     <ClCompile Include="sources\main.cpp" />
+    <ClCompile Include="sources\Object3D.cpp" />
+    <ClCompile Include="sources\Renderer.cpp" />
+    <ClCompile Include="sources\VertexArray.cpp" />
+    <ClCompile Include="sources\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\shader.hpp" />
+    <ClInclude Include="sources\Camera.h" />
+    <ClInclude Include="sources\Object3D.h" />
+    <ClInclude Include="sources\Cube.h" />
+    <ClInclude Include="sources\IndexBuffer.h" />
+    <ClInclude Include="sources\Renderer.h" />
+    <ClInclude Include="sources\Vertex.h" />
+    <ClInclude Include="sources\VertexArray.h" />
+    <ClInclude Include="sources\VertexBuffer.h" />
+    <ClInclude Include="sources\VertexBufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\shaders\3DFragShader.glsl" />
+    <None Include="res\shaders\3DVertexShader.glsl" />
     <None Include="res\shaders\SimpleFragmentShader.glsl" />
     <None Include="res\shaders\SimpleVertexShader.glsl" />
   </ItemGroup>

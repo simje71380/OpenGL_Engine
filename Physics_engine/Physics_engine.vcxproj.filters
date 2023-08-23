@@ -26,10 +26,58 @@
     <ClCompile Include="common\shader.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="sources\Renderer.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\VertexBuffer.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\IndexBuffer.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\VertexArray.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Cube.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Object3D.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\Camera.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\shader.hpp">
       <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\Renderer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\VertexBuffer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\IndexBuffer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\VertexArray.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\VertexBufferLayout.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\Cube.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\Object3D.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\Vertex.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\Camera.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +85,12 @@
       <Filter>res\shaders</Filter>
     </None>
     <None Include="res\shaders\SimpleVertexShader.glsl">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\3DFragShader.glsl">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="res\shaders\3DVertexShader.glsl">
       <Filter>res\shaders</Filter>
     </None>
   </ItemGroup>
