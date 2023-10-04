@@ -1,6 +1,7 @@
 #include "Renderer.h"
 
 #include <iostream>
+#include "Object3D.h"
 
 void GLClearError() {
     while (glGetError() != GL_NO_ERROR);

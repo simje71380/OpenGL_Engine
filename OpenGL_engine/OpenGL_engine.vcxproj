@@ -151,6 +151,8 @@
     <ClCompile Include="sources\Cube.cpp" />
     <ClCompile Include="sources\IndexBuffer.cpp" />
     <ClCompile Include="sources\main.cpp" />
+    <ClCompile Include="sources\Material.cpp" />
+    <ClCompile Include="sources\MaterialsManager.cpp" />
     <ClCompile Include="sources\Object3D.cpp" />
     <ClCompile Include="sources\Renderer.cpp" />
     <ClCompile Include="sources\Shader.cpp" />
@@ -162,6 +164,8 @@
   <ItemGroup>
     <ClInclude Include="common\utils.h" />
     <ClInclude Include="sources\Camera.h" />
+    <ClInclude Include="sources\Material.h" />
+    <ClInclude Include="sources\MaterialsManager.h" />
     <ClInclude Include="sources\Object3D.h" />
     <ClInclude Include="sources\Cube.h" />
     <ClInclude Include="sources\IndexBuffer.h" />
@@ -178,7 +182,7 @@
     <None Include="res\shaders\3DVertexShader.glsl" />
     <None Include="res\shaders\SimpleFragmentShader.glsl" />
     <None Include="res\shaders\SimpleVertexShader.glsl" />
-    <None Include="res\shaders\TextureFragmentShader.glsl" />
+    <None Include="res\shaders\TextureFragShader.glsl" />
     <None Include="res\shaders\TextureVertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>

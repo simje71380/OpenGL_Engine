@@ -59,6 +59,12 @@
     <ClCompile Include="sources\Shader.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="sources\Material.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\MaterialsManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\Renderer.h">
@@ -97,6 +103,12 @@
     <ClInclude Include="sources\Shader.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="sources\Material.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\MaterialsManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\SimpleFragmentShader.glsl">
@@ -114,7 +126,7 @@
     <None Include="res\shaders\TextureVertexShader.glsl">
       <Filter>res\shaders</Filter>
     </None>
-    <None Include="res\shaders\TextureFragmentShader.glsl">
+    <None Include="res\shaders\TextureFragShader.glsl">
       <Filter>res\shaders</Filter>
     </None>
   </ItemGroup>

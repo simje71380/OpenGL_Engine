@@ -1,5 +1,9 @@
 #include "Shader.h"
 
+Shader::~Shader()
+{
+}
+
 Shader::Shader(const char* vertex_path, const char* fragment_path)
 {
 	// Create the shaders
@@ -16,7 +20,7 @@ Shader::Shader(const char* vertex_path, const char* fragment_path)
 		VertexShaderStream.close();
 	}
 	else {
-		printf("Impossible to open %s. Are you in the right directory ? Don't forget to read the FAQ !\n", vertex_path);
+		printf("Impossible to open %s. Are you in the right directory ?\n", vertex_path);
 		getchar();
 	}
 
@@ -94,10 +98,6 @@ Shader::Shader(const char* vertex_path, const char* fragment_path)
 	GLCall(glUseProgram(0));
 }
 
-Shader::~Shader()
-{
-}
-
 void Shader::Bind()
 {
 	GLCall(glUseProgram(ProgramID));
@@ -110,7 +110,7 @@ void Shader::Unbind()
 
 int Shader::GetUniformLocation(const char* name)
 {
-	GLCall(int location = glGetUniformLocation(ProgramID, name)); //get the location of the uniform in the shader
+	GLCall(int location = glGetUniformLocation(ProgramID, name)); //set the location of the uniform in the shader
 	ASSERT(location != -1); //verify error
 	return location;
 }

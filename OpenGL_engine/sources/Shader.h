@@ -17,8 +17,8 @@ class Shader {
 private:
 	GLuint ProgramID;
 public:
-	Shader(const char* vertex_path, const char* fragment_path);
 	~Shader();
+	Shader(const char* vertex_path, const char* fragment_path);
 	void Bind();
 	void Unbind();
 	int GetUniformLocation(const char* name);

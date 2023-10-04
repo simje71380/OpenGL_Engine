@@ -11,6 +11,8 @@
 #include "Object3D.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "MaterialsManager.h"
+
 
 //memory analysis
 #include "windows.h"
@@ -110,14 +112,15 @@ int main(void)
         
 
         Vertex* vertices = new Vertex[8]{
-            Vertex(-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f),
-            Vertex( 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f),
-            Vertex(-0.5f,  0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f),
-            Vertex( 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f),
-            Vertex(-0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f),
-            Vertex( 0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f),
-            Vertex(-0.5f,  0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f),
-            Vertex( 0.5f,  0.5f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f)
+            Vertex(glm::vec4(-0.5f, -0.5f, -0.5f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
+            Vertex(glm::vec4( 0.5f, -0.5f, -0.5f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
+            Vertex(glm::vec4(-0.5f,  0.5f, -0.5f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
+            Vertex(glm::vec4( 0.5f,  0.5f, -0.5f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
+            Vertex(glm::vec4(-0.5f, -0.5f,  0.5f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
+            Vertex(glm::vec4( 0.5f, -0.5f,  0.5f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
+            Vertex(glm::vec4(-0.5f,  0.5f,  0.5f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
+            Vertex(glm::vec4( 0.5f,  0.5f,  0.5f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
+
         };
 
         unsigned int *indices = new unsigned int[36]{
@@ -135,7 +138,9 @@ int main(void)
              4, 5, 7
         };
 
-        Object3D obj(8, vertices, indices, 36);
+        //Object3D obj(8, vertices, indices, 36, mat);
+        MaterialsManager MM;
+        Object3D sphere("res/models/sphere.obj", &MM);
 
         // Enable depth test
         glEnable(GL_DEPTH_TEST);
@@ -197,8 +202,11 @@ int main(void)
             */
             
             //c.Draw();
-            obj.Rotate(rotation_speed * deltaTime, rotation_speed * deltaTime, rotation_speed * deltaTime);
-            obj.Draw(&camera);
+            /*obj.Rotate(rotation_speed * deltaTime, rotation_speed * deltaTime, rotation_speed * deltaTime);
+            */
+            //obj.Draw(&camera);
+            sphere.Rotate(rotation_speed * deltaTime, rotation_speed * deltaTime, rotation_speed * deltaTime);
+            sphere.Draw(&camera);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
