@@ -8,7 +8,6 @@
 
 class Camera {
 private:
-	glm::vec3 m_Position = glm::vec3(1.0f, 1.0f, 1.0f);
 	glm::vec3 m_Orientation = glm::vec3(0.0f, 0.0f, -1.0f); //looking to Z axis
 
 	bool m_Head_Is_Up = true;
@@ -37,6 +36,11 @@ public:
 	void Resize(int width, int height);
 
 	glm::mat4 Get_MVP(glm::mat4 model);
+	glm::mat4 Get_View();
+	glm::mat4 Get_Proj();
+
+	glm::vec3 m_Position = glm::vec3(1.0f, 1.0f, 1.0f);
+
 	// Handles camera inputs
 	void Inputs(GLFWwindow* window, double deltaTime);
 };

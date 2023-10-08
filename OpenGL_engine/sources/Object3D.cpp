@@ -195,8 +195,12 @@ void Object3D::Rotate(float theta_x, float theta_y, float theta_z)
 
 	for (unsigned int i = 0; i < m_Vertices_Count; i++) {
 		Vertex v(m_Vertices[i]);
-		glm::vec4 myVector(v.position);
-		m_Vertices[i].position = RMatrix * myVector;
+		glm::vec4 posVector(v.position);
+		m_Vertices[i].position = RMatrix * posVector;
+
+		//rotate normals
+		glm::vec4 normalVector(v.normal, 1.0f);
+		m_Vertices[i].normal = glm::vec3(RMatrix * normalVector);
 	}
 
 	//update the vertex buffer
@@ -242,12 +246,21 @@ void Object3D::Draw(Camera* cam)
 		m_MaterialWrapper[i].m_ib->Bind(); //set the indexbuffer
 
 		//getting the MVP matrix
-		glm::mat4 mvp = cam->Get_MVP(m_Model);
+		glm::mat4 model = m_Model;
+		glm::mat4 view = cam->Get_View();
+		glm::mat4 proj = cam->Get_Proj();
 
 		// Send our transformation to the currently bound shader, in the "MVP" uniform
 		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
-		GLCall(glUniformMatrix4fv(m_MaterialWrapper[i].m_mat->m_MatrixID, 1, GL_FALSE, &mvp[0][0]));
-		GLCall(glUniform3f(m_MaterialWrapper[i].m_mat->m_KaID, m_MaterialWrapper[i].m_mat->Ka.x, m_MaterialWrapper[i].m_mat->Ka.r, m_MaterialWrapper[i].m_mat->Ka.s));
+		GLCall(glUniformMatrix4fv(m_MaterialWrapper[i].m_mat->m_ViewMatrixID, 1, GL_FALSE, &view[0][0]));
+		GLCall(glUniformMatrix4fv(m_MaterialWrapper[i].m_mat->m_ProjMatrixID, 1, GL_FALSE, &proj[0][0]));
+		GLCall(glUniformMatrix4fv(m_MaterialWrapper[i].m_mat->m_ModelMatrixID, 1, GL_FALSE, &model[0][0]));
+		
+		GLCall(glUniform3f(m_MaterialWrapper[i].m_mat->m_ViewPos, cam->m_Position.x, cam->m_Position.y, cam->m_Position.z));
+
+		GLCall(glUniform3f(m_MaterialWrapper[i].m_mat->m_KaID, m_MaterialWrapper[i].m_mat->Ka.x, m_MaterialWrapper[i].m_mat->Ka.y, m_MaterialWrapper[i].m_mat->Ka.z));
+		GLCall(glUniform3f(m_MaterialWrapper[i].m_mat->m_KdID, m_MaterialWrapper[i].m_mat->Kd.x, m_MaterialWrapper[i].m_mat->Kd.y, m_MaterialWrapper[i].m_mat->Kd.z));
+		GLCall(glUniform3f(m_MaterialWrapper[i].m_mat->m_KsID, m_MaterialWrapper[i].m_mat->Ks.x, m_MaterialWrapper[i].m_mat->Ks.y, m_MaterialWrapper[i].m_mat->Ks.z));
 
 
 		GLCall(glDrawElements(GL_TRIANGLES, m_MaterialWrapper[i].m_Indices_Count, GL_UNSIGNED_INT, nullptr));
@@ -294,22 +307,22 @@ std::vector<Material*> Object3D::LoadMaterial(const char* file_path, MaterialsMa
 		}
 		else if (strcmp(lineHeader, "Ka") == 0) {
 			glm::vec3 Ka;
-			fscanf(file, "%f, %f, %f\n", &Ka.x, &Ka.y, &Ka.z);
+			fscanf(file, "%f %f %f\n", &Ka.x, &Ka.y, &Ka.z);
 			temp_material->Ka = Ka;
 		}
 		else if (strcmp(lineHeader, "Kd") == 0) {
 			glm::vec3 Kd;
-			fscanf(file, "%f, %f, %f\n", &Kd.x, &Kd.y, &Kd.z);
+			fscanf(file, "%f %f %f\n", &Kd.x, &Kd.y, &Kd.z);
 			temp_material->Kd = Kd;
 		}
 		else if (strcmp(lineHeader, "Ks") == 0) {
 			glm::vec3 Ks;
-			fscanf(file, "%f, %f, %f\n", &Ks.x, &Ks.y, &Ks.z);
+			fscanf(file, "%f %f %f\n", &Ks.x, &Ks.y, &Ks.z);
 			temp_material->Ks = Ks;
 		}
 		else if (strcmp(lineHeader, "Ke") == 0) {
 			glm::vec3 Ke;
-			fscanf(file, "%f, %f, %f\n", &Ke.x, &Ke.y, &Ke.z);
+			fscanf(file, "%f %f %f\n", &Ke.x, &Ke.y, &Ke.z);
 			temp_material->Ke = Ke;
 		}
 		else if (strcmp(lineHeader, "Ni") == 0) {

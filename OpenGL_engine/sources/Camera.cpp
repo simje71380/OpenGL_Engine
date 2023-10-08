@@ -23,6 +23,26 @@ glm::mat4 Camera::Get_MVP(glm::mat4 model)
 	return Projection * View * model;
 }
 
+glm::mat4 Camera::Get_View()
+{
+	// Camera matrix
+	glm::mat4 View = glm::lookAt(
+		m_Position, // Camera position in World Space
+		m_Position + m_Orientation, // and looking position
+		m_Head_Is_Up ? glm::vec3(0, 1, 0) : glm::vec3(0, -1, 0) // Head is up (set to 0,-1,0 to look upside-down)
+	);
+	return View;
+}
+
+glm::mat4 Camera::Get_Proj()
+{
+	// Projection matrix : Field of View, aspect ratio, display range : 0.1 unit <-> 100 units
+	glm::mat4 Projection = glm::perspective(glm::radians(m_FOV), m_Width / m_Height, m_Range_Close, m_Range_Far);
+
+	return Projection;
+}
+
+
 void Camera::Inputs(GLFWwindow* window, double deltaTime)
 {
 	// Handles key inputs
@@ -48,7 +68,7 @@ void Camera::Inputs(GLFWwindow* window, double deltaTime)
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 	{
-		m_Position += (float)deltaTime * m_speed * -m_Head_Is_Up ? glm::vec3(0, 1, 0) : glm::vec3(0, -1, 0);
+		m_Position += (float)deltaTime * m_speed * m_Head_Is_Up ? glm::vec3(0, -1, 0) : glm::vec3(0, 1, 0);
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{

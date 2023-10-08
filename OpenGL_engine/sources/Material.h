@@ -14,7 +14,12 @@ public:
 	void Bind();
 	void Unbind();
 
-	GLuint m_MatrixID;
+	GLuint m_ViewMatrixID;
+	GLuint m_ProjMatrixID;
+	GLuint m_ModelMatrixID;
+
+	GLuint m_ViewPos;
+
 	Shader* m_Shader = NULL;
 	Texture* m_Texture = NULL;
 	char name[128];

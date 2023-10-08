@@ -140,7 +140,7 @@ int main(void)
 
         //Object3D obj(8, vertices, indices, 36, mat);
         MaterialsManager MM;
-        Object3D sphere("res/models/sphere.obj", &MM);
+        Object3D sphere("res/models/easySphere.obj", &MM);
 
         // Enable depth test
         glEnable(GL_DEPTH_TEST);
