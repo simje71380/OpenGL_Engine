@@ -117,14 +117,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\libs\glm;$(ProjectDir)\libs\glfw-3.3.8.bin.WIN64\include;$(ProjectDir)\libs\glew-2.1.0\include;$(ProjectDir)\libs\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\libs\glm;$(ProjectDir)\libs\glfw-3.3.8.bin.WIN64\include;$(ProjectDir)\libs\glew-2.1.0\include;$(ProjectDir)\libs\stb;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\libs\glfw-3.3.8.bin.WIN64\lib-vc2019;$(ProjectDir)\libs\glew-2.1.0\lib\Release\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libs\glfw-3.3.8.bin.WIN64\lib-vc2019;$(ProjectDir)\libs\glew-2.1.0\lib\Release\x64;$(ProjectDir)\libs\CudaKernel</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;glew32.lib;CudaKernel.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>copy /Y $(SolutionDir)libs\CudaKernel\CudaKernel.dll $(ProjectDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

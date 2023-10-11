@@ -14,6 +14,9 @@
 #include "MaterialsManager.h"
 
 
+//CUDA kernels DLL
+#include "../CUDA/CudaKernel.h"
+
 //memory analysis
 #include "windows.h"
 #define _CRTDBG_MAP_ALLOC //to get more details
