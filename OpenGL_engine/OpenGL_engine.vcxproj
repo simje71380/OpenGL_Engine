@@ -147,6 +147,9 @@
       <AdditionalLibraryDirectories>$(ProjectDir)\libs\glfw-3.3.8.bin.WIN64\lib-vc2019;$(ProjectDir)\libs\glew-2.1.0\lib\Release\x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>copy /Y $(SolutionDir)libs\CudaKernel\CudaKernel.dll $(ProjectDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="common\utils.cpp" />
