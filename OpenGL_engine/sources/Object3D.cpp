@@ -1,6 +1,13 @@
 #pragma warning(disable:4996)
 
 #include "Object3D.h"
+#include <glm/gtx/string_cast.hpp>
+
+
+#ifdef CUDA_ENABLED
+//CUDA kernels DLL
+#include "../CUDA/CudaKernel.h"
+#endif
 
 Object3D::Object3D(unsigned int vertices_count, Vertex *vertices, unsigned int *indices, unsigned int indices_count, Material *material)
 	: m_Vertices_Count(vertices_count), m_Vertices(vertices){
@@ -187,84 +194,24 @@ Object3D::Object3D(const char* file_path, MaterialsManager* MM)
 
 void Object3D::Rotate(float theta_x, float theta_y, float theta_z)
 {
-	//proceed the rotation to the vertex
-	glm::mat4 RMatrix_x = glm::rotate(theta_x, glm::vec3(1.0f, 0.0f, 0.0f));
-	glm::mat4 RMatrix_y = glm::rotate(theta_y, glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 RMatrix_z = glm::rotate(theta_z, glm::vec3(0.0f, 0.0f, 1.0f));
-	glm::mat4 RMatrix = RMatrix_x * RMatrix_y * RMatrix_z;
-
-	for (unsigned int i = 0; i < m_Vertices_Count; i++) {
-		Vertex v(m_Vertices[i]);
-		glm::vec4 posVector(v.position);
-		m_Vertices[i].position = RMatrix * posVector;
-
-		//rotate normals
-		glm::vec4 normalVector(v.normal, 1.0f);
-		m_Vertices[i].normal = glm::vec3(RMatrix * normalVector);
-	}
-
-	//update the vertex buffer
-	m_vb->Update(m_Vertices, m_Vertices_Count * sizeof(Vertex));
-	m_va->AddBuffer(*m_vb, *m_layout);
+	m_Model = glm::rotate(m_Model, theta_x, glm::vec3(1.0f, 0.0f, 0.0f));
+	m_Model = glm::rotate(m_Model, theta_y, glm::vec3(0.0f, 1.0f, 0.0f));
+	m_Model = glm::rotate(m_Model, theta_z, glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
 void Object3D::Translate(float x, float y, float z)
 {
-	//proceed the translation to the vertex
-	glm::mat4 TMatrix = glm::translate(glm::mat4(1), glm::vec3(x, y, z));
-	for (unsigned int i = 0; i < m_Vertices_Count; i++) {
-		Vertex v(m_Vertices[i]);
-		glm::vec4 myVector(v.position);
-		m_Vertices[i].position = TMatrix * myVector;
-	}
-
-	//update the vertex buffer
-	m_vb->Update(m_Vertices, m_Vertices_Count * sizeof(Vertex));
-	m_va->AddBuffer(*m_vb, *m_layout);
+	m_Origin += glm::vec3(x, y, z);
 }
 
 void Object3D::Scale(float x, float y, float z)
-{
-	//proceed the scaling to the vertex
-	glm::mat4 SMatrix = glm::scale(glm::vec3(x, y, z));
-	for (unsigned int i = 0; i < m_Vertices_Count; i++) {
-		Vertex v(m_Vertices[i]);
-		glm::vec4 myVector(v.position);
-		m_Vertices[i].position = SMatrix * myVector;
-	}
-
-	//update the vertex buffer
-	m_vb->Update(m_Vertices, m_Vertices_Count * sizeof(Vertex));
-	m_va->AddBuffer(*m_vb, *m_layout);
+{	
+	m_Model = glm::scale(m_Model, glm::vec3(glm::inverse(glm::transpose(m_Model)) * glm::vec4(x, y, z, 1.0f)));
 }
 
-void Object3D::Draw(Camera* cam)
+void Object3D::Scale(float coef)
 {
-	m_va->Bind();
-	for (unsigned int i = 0; i < m_MaterialWrapper.size(); i++) {
-		m_MaterialWrapper[i].m_mat->Bind(); //set the material
-		m_MaterialWrapper[i].m_ib->Bind(); //set the indexbuffer
-
-		//getting the MVP matrix
-		glm::mat4 model = m_Model;
-		glm::mat4 view = cam->Get_View();
-		glm::mat4 proj = cam->Get_Proj();
-
-		// Send our transformation to the currently bound shader, in the "MVP" uniform
-		// This is done in the main loop since each model will have a different MVP matrix (At least for the M part)
-		GLCall(glUniformMatrix4fv(m_MaterialWrapper[i].m_mat->m_ViewMatrixID, 1, GL_FALSE, &view[0][0]));
-		GLCall(glUniformMatrix4fv(m_MaterialWrapper[i].m_mat->m_ProjMatrixID, 1, GL_FALSE, &proj[0][0]));
-		GLCall(glUniformMatrix4fv(m_MaterialWrapper[i].m_mat->m_ModelMatrixID, 1, GL_FALSE, &model[0][0]));
-		
-		GLCall(glUniform3f(m_MaterialWrapper[i].m_mat->m_ViewPos, cam->m_Position.x, cam->m_Position.y, cam->m_Position.z));
-
-		GLCall(glUniform3f(m_MaterialWrapper[i].m_mat->m_KaID, m_MaterialWrapper[i].m_mat->Ka.x, m_MaterialWrapper[i].m_mat->Ka.y, m_MaterialWrapper[i].m_mat->Ka.z));
-		GLCall(glUniform3f(m_MaterialWrapper[i].m_mat->m_KdID, m_MaterialWrapper[i].m_mat->Kd.x, m_MaterialWrapper[i].m_mat->Kd.y, m_MaterialWrapper[i].m_mat->Kd.z));
-		GLCall(glUniform3f(m_MaterialWrapper[i].m_mat->m_KsID, m_MaterialWrapper[i].m_mat->Ks.x, m_MaterialWrapper[i].m_mat->Ks.y, m_MaterialWrapper[i].m_mat->Ks.z));
-
-
-		GLCall(glDrawElements(GL_TRIANGLES, m_MaterialWrapper[i].m_Indices_Count, GL_UNSIGNED_INT, nullptr));
-	}
+	m_Model = glm::scale(m_Model, glm::vec3(coef));
 }
 
 std::vector<Material*> Object3D::LoadMaterial(const char* file_path, MaterialsManager* MM) {

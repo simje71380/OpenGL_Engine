@@ -12,6 +12,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "MaterialsManager.h"
+#include "Lights.h"
 
 
 //CUDA kernels DLL
@@ -70,50 +71,7 @@ int main(void)
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    /*Triangle triangle("shaders/SimpleVertexShader.glsl", "shaders/SimpleFragmentShader.glsl");
-    Triangle triangle2("shaders/SimpleVertexShader.glsl", "shaders/SimpleFragmentShader2.glsl");*/
     {
-        /*float positions[]{
-            -0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,   0.0f, 0.0f,
-            -0.5f,  0.5f, 0.0f,     0.0f, 1.0f, 0.0f,   0.0f, 1.0f,
-             0.5f,  0.5f, 0.0f,     0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
-             0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f,   1.0f, 0.0f
-        };
-
-        unsigned int indices[]{
-            0, 2, 1,
-            0, 3, 2
-        };
-
-        //setting up the vertex array object
-        VertexArray va;
-
-        //setting up vertex buffer
-        VertexBuffer vb(positions, 4 * 8 * sizeof(float));
-
-        //setting up the VB layout
-        VertexBufferLayout layout;
-        layout.Push<float>(3);
-        layout.Push<float>(3);
-        layout.Push<float>(2);
-        va.AddBuffer(vb, layout);
-
-        //setting up index buffer
-        IndexBuffer ib(indices, 6);
-
-        //shading
-        Shader shader("res/shaders/TextureVertexShader.glsl", "res/shaders/TextureFragmentShader.glsl");
-        shader.Bind(); //set drawing with this shader (vertex + frag)
-
-        //texture
-        Texture texture("res/textures/square.png");
-        int location = shader.GetUniformLocation("tex0");
-        shader.Bind();
-        glUniform1i(location, 0);
-
-  */
-        
-
         Vertex* vertices = new Vertex[8]{
             Vertex(glm::vec4(-0.5f, -0.5f, -0.5f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
             Vertex(glm::vec4( 0.5f, -0.5f, -0.5f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)),
@@ -142,8 +100,16 @@ int main(void)
         };
 
         //Object3D obj(8, vertices, indices, 36, mat);
+
+        Renderer renderer;
+
         MaterialsManager MM;
-        Object3D sphere("res/models/easySphere.obj", &MM);
+        
+        //pourrait etre intéressant d'ajouter une hashmap string -> obj
+        Object3D cube("res/models/cube.obj", &MM);
+        renderer.AddObject3D(&cube);
+        PointLight pointLight(glm::vec3(0.0f, 3.0f, 0.0f));
+        renderer.AddPointLight(&pointLight);
 
         // Enable depth test
         glEnable(GL_DEPTH_TEST);
@@ -151,6 +117,7 @@ int main(void)
         glDepthFunc(GL_LESS);
 
         //FPS counter
+        double init_time = glfwGetTime();
         double prevTime = 0.0;
         double crntTime = 0.0;
         double deltaTime;
@@ -174,7 +141,7 @@ int main(void)
             image_count++;
             if (fps_delta > 1.0 / 5.0) { //rafraichisssement du compteur a 5hz
                 std::string FPS = std::to_string((1.0 / fps_delta) * counter);
-                std::string AVG = std::to_string((1.0 / crntTime) * image_count);
+                std::string AVG = std::to_string((1.0 / (crntTime - init_time)) * image_count);
                 std::string newTitle = "Engine - " + FPS + " FPS \ AVG : " + AVG + " FPS";
                 glfwSetWindowTitle(window, newTitle.c_str());
                 fps_delta = 0.0;
@@ -208,8 +175,15 @@ int main(void)
             /*obj.Rotate(rotation_speed * deltaTime, rotation_speed * deltaTime, rotation_speed * deltaTime);
             */
             //obj.Draw(&camera);
-            sphere.Rotate(rotation_speed * deltaTime, rotation_speed * deltaTime, rotation_speed * deltaTime);
+            renderer.Render(&camera);
+            /*
+            sphere.Rotate(0.0f, 0.0f, rotation_speed * deltaTime);
+            float x = 1+sin(crntTime) * deltaTime;
+            //sphere.Scale(x);
+            //sphere.Translate(1 * deltaTime, 0.0f, 0.0f);
             sphere.Draw(&camera);
+            */
+
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);

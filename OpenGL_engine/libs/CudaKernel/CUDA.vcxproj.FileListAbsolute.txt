@@ -1,1 +1,1 @@
-E:\dev\OpenGL_Engine\CUDA\x64\Debug\CudaKernel.dll
+E:\dev\OpenGL_Engine\CUDA\x64\Release\CudaKernel.dll

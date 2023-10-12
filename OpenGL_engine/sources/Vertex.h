@@ -1,5 +1,5 @@
 #pragma once
-#include "glm/glm.hpp"
+#include "../OpenGL_engine/libs/glm/glm/glm.hpp"
 
 //Vertex : Vec4 pos, Vec2 UV, Vec3, normal
 class Vertex {

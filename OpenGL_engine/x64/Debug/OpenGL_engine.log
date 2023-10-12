@@ -1,5 +1,7 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: Le répertoire intermédiaire (x64\Debug\) contient des fichiers partagés provenant d'un autre projet (Physics_engine.vcxproj). Cela peut entraîner un comportement de nettoyage et de regénération incorrect.
           1 fichier(s) copié(s).
-  LINK : E:\dev\OpenGL_Engine\OpenGL_engine\x64\Debug\OpenGL Engine.exe introuvable ou non généré par la dernière édition de liens incrémentielle ; édition de liens complète en cours
-LINK : warning LNK4098: conflit entre la bibliothèque par défaut 'MSVCRT' et les autres bibliothèques ; utilisez /NODEFAULTLIB:library
+  Renderer.cpp
+  VertexArray.cpp
+E:\dev\OpenGL_Engine\OpenGL_engine\sources\VertexArray.cpp(24,1): warning C4312: 'cast de type' : la conversion de 'unsigned int' en 'const void *' d'une taille supérieure
+  Génération de code en cours...
   OpenGL_engine.vcxproj -> E:\dev\OpenGL_Engine\OpenGL_engine\x64\Debug\OpenGL Engine.exe

@@ -69,6 +69,7 @@
       <Defines>
       </Defines>
       <CudaRuntime>Shared</CudaRuntime>
+      <Include>$(SolutionDir)libs\glm</Include>
     </CudaCompile>
     <CustomBuildStep>
       <Command>
@@ -96,7 +97,11 @@
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
       <CudaRuntime>Shared</CudaRuntime>
+      <Include>$(SolutionDir)libs\glm</Include>
     </CudaCompile>
+    <PostBuildEvent>
+      <Command>copy /Y $(ProjectDir)$(Platform)\$(Configuration)\* $(SolutionDir)libs\CudaKernel</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CudaCompile Include="kernel.cu" />

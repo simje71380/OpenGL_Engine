@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "GL/glew.h"
-#include "Renderer.h"
+#include "common/utils.h"
 
 struct VertexBufferElement {
 	unsigned int type;

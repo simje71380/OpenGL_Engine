@@ -14,8 +14,7 @@ out vec3 fNormals;
 out vec3 FragPos;
 
 void main(){
-    vec4 vertexPos = Model * pos;
-    gl_Position = Proj * View * vec4(pos);
+    gl_Position = Proj * View * Model * pos;
     fColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
     fNormals = inverse(transpose(mat3(Model))) * normals;  

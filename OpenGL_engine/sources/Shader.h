@@ -11,7 +11,7 @@ using namespace std;
 
 #include <stdlib.h>
 #include <string.h>
-#include "Renderer.h"
+#include "common/utils.h"
 
 class Shader {
 private:

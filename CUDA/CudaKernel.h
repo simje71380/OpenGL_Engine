@@ -10,4 +10,8 @@
 	#endif
 #endif
 
+#include "../OpenGL_engine/sources/Vertex.h"
+
 extern "C" EXP_CUDA_KERNEL bool compute_cuda(int* c, const int* a, const int* b, int arraySize);
+
+extern "C" EXP_CUDA_KERNEL bool CudaVectorRotation(int numVertices, Vertex * vertices, glm::mat4 * d_rotationMatrix);

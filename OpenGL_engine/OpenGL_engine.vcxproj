@@ -144,7 +144,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\libs\glfw-3.3.8.bin.WIN64\lib-vc2019;$(ProjectDir)\libs\glew-2.1.0\lib\Release\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\libs\glfw-3.3.8.bin.WIN64\lib-vc2019;$(ProjectDir)\libs\glew-2.1.0\lib\Release\x64;$(ProjectDir)\libs\CudaKernel</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
@@ -156,6 +156,7 @@
     <ClCompile Include="sources\Camera.cpp" />
     <ClCompile Include="sources\Cube.cpp" />
     <ClCompile Include="sources\IndexBuffer.cpp" />
+    <ClCompile Include="sources\Lights.cpp" />
     <ClCompile Include="sources\main.cpp" />
     <ClCompile Include="sources\Material.cpp" />
     <ClCompile Include="sources\MaterialsManager.cpp" />
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="common\utils.h" />
     <ClInclude Include="sources\Camera.h" />
+    <ClInclude Include="sources\Lights.h" />
     <ClInclude Include="sources\Material.h" />
     <ClInclude Include="sources\MaterialsManager.h" />
     <ClInclude Include="sources\Object3D.h" />

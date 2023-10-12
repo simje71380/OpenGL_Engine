@@ -1,11 +1,17 @@
 #pragma once
 
-#include <GL/glew.h>
+#include "common/utils.h"
+#include "Lights.h"
+#include <iostream>
+#include "Object3D.h"
 
-#define ASSERT(x) if (!(x)) __debugbreak();
-#define GLCall(x) GLClearError();\
-    x;\
-    ASSERT(GLLogCall(#x, __FILE__, __LINE__))
 
-void GLClearError();
-bool GLLogCall(const char* function, const char* file, int line);
+class Renderer {
+private:
+    std::vector<Object3D*> m_Objects;
+    std::vector<PointLight*> m_PointLights;
+public:
+    void Render(Camera* cam);
+    void AddObject3D(Object3D *obj);
+    void AddPointLight(PointLight *light);
+};
