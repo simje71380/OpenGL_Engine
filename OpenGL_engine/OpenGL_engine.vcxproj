@@ -178,6 +178,7 @@
     <ClInclude Include="sources\Cube.h" />
     <ClInclude Include="sources\IndexBuffer.h" />
     <ClInclude Include="sources\Renderer.h" />
+    <ClInclude Include="sources\Scene.h" />
     <ClInclude Include="sources\Shader.h" />
     <ClInclude Include="sources\Texture.h" />
     <ClInclude Include="sources\Vertex.h" />

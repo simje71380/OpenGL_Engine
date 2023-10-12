@@ -13,6 +13,7 @@
 #include "Shader.h"
 #include "MaterialsManager.h"
 #include "Lights.h"
+#include "Scene.h"
 
 
 //CUDA kernels DLL
@@ -102,14 +103,16 @@ int main(void)
         //Object3D obj(8, vertices, indices, 36, mat);
 
         Renderer renderer;
+        Scene scene;
 
         MaterialsManager MM;
         
         //pourrait etre intéressant d'ajouter une hashmap string -> obj
         Object3D cube("res/models/cube.obj", &MM);
-        renderer.AddObject3D(&cube);
-        PointLight pointLight(glm::vec3(0.0f, 3.0f, 0.0f));
-        renderer.AddPointLight(&pointLight);
+        scene.AddObject3D(&cube, "cube 1");
+        PointLight pointLight(glm::vec3(-2.0f, 3.0f, 0.0f));
+        scene.AddPointLight(&pointLight, "point light 1");
+        scene.AddCamera(&camera, "main camera");
 
         // Enable depth test
         glEnable(GL_DEPTH_TEST);
@@ -175,7 +178,7 @@ int main(void)
             /*obj.Rotate(rotation_speed * deltaTime, rotation_speed * deltaTime, rotation_speed * deltaTime);
             */
             //obj.Draw(&camera);
-            renderer.Render(&camera);
+            renderer.Render(&scene);
             /*
             sphere.Rotate(0.0f, 0.0f, rotation_speed * deltaTime);
             float x = 1+sin(crntTime) * deltaTime;
