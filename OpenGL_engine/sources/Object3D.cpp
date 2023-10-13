@@ -83,7 +83,6 @@ Object3D::Object3D(const char* file_path, MaterialsManager* MM)
 	std::vector<std::vector<unsigned int>> all_indicies;
 	std::vector<unsigned int> local_indicies;
 	std::vector<std::string> material_names;
-	unsigned int depth = 0;
 
 	while (1) {
 		char lineHeader[128];
@@ -184,7 +183,7 @@ Object3D::Object3D(const char* file_path, MaterialsManager* MM)
 		//bind material
 		for (unsigned int j = 0; j < materials.size(); j++) {
 			if (material_names[i] == (std::string)materials[j]->name) {
-				wrapper.m_mat = materials[i];
+				wrapper.m_mat = materials[j];
 			}
 		}
 		//wrapper.m_mat->Bind(); //set the material
@@ -302,3 +301,116 @@ std::vector<Material*> Object3D::LoadMaterial(const char* file_path, MaterialsMa
 
 	return output;
 }
+
+Object3D::Object3D(const char* file_path, bool is_light)
+{
+	//verify extension
+	if (Get_Extension(file_path) != ".obj") {
+		std::cout << "Wrong file extension must be .obj ! current :" << Get_Extension(file_path) << std::endl;
+		return;
+	}
+
+	//open file
+	FILE* file = fopen(file_path, "r");
+	if (file == NULL) {
+		printf("Impossible to open the file !\n");
+		return;
+	}
+
+	//parsing file
+	std::vector< glm::vec3 > temp_vertices;
+	std::vector< glm::vec2 > temp_uvs;
+	std::vector< glm::vec3 > temp_normals;
+	std::vector<Vertex> vertices;
+	unsigned int index_number = 0;
+	std::vector<std::vector<unsigned int>> all_indicies;
+	std::vector<unsigned int> local_indicies;
+
+	while (1) {
+		char lineHeader[128];
+		// read the first word of the line
+		int res = fscanf(file, "%s", lineHeader);
+		if (res == EOF)
+			break;
+		else if (strcmp(lineHeader, "v") == 0) {
+			glm::vec3 vertex;
+			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+			temp_vertices.push_back(vertex);
+		}
+		else if (strcmp(lineHeader, "vt") == 0) {
+			glm::vec2 uv;
+			fscanf(file, "%f %f\n", &uv.x, &uv.y);
+			temp_uvs.push_back(uv);
+		}
+		else if (strcmp(lineHeader, "vn") == 0) {
+			glm::vec3 normal;
+			fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
+			temp_normals.push_back(normal);
+		}
+		else if (strcmp(lineHeader, "f") == 0) {
+			std::string vertex1, vertex2, vertex3;
+			unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
+			int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+			if (matches != 9) {
+				printf("File can't be read by our simple parser : ( Try exporting with other options\n");
+				return;
+			}
+			//creer les vertices
+			vertices.push_back(Vertex(temp_vertices[vertexIndex[0] - 1], temp_uvs[uvIndex[0] - 1], temp_normals[normalIndex[0] - 1]));
+			vertices.push_back(Vertex(temp_vertices[vertexIndex[1] - 1], temp_uvs[uvIndex[1] - 1], temp_normals[normalIndex[1] - 1]));
+			vertices.push_back(Vertex(temp_vertices[vertexIndex[2] - 1], temp_uvs[uvIndex[2] - 1], temp_normals[normalIndex[2] - 1]));
+
+			local_indicies.push_back(index_number);
+			local_indicies.push_back(index_number + 1);
+			local_indicies.push_back(index_number + 2);
+			index_number += 3;
+		}
+	}
+	//pushback last index vector
+	all_indicies.push_back(local_indicies);
+	local_indicies.clear();
+
+
+	//processing the data
+
+	//setup vertex buffer
+	m_Vertices = new Vertex[vertices.size()];
+	m_Vertices_Count = vertices.size();
+
+	for (unsigned int i = 0; i < vertices.size(); i++) {
+		m_Vertices[i].Set(vertices[i]);
+	}
+
+	//setting up the vertex array object
+	m_va = new VertexArray;
+
+	//setting up vertex buffer
+	m_vb = new VertexBuffer(m_Vertices, m_Vertices_Count * sizeof(Vertex));
+
+	//setting up the VB layout
+	m_layout = new VertexBufferLayout;
+	m_layout->Push<float>(4); //pos
+	m_layout->Push<float>(2); //UV
+	m_layout->Push<float>(3); //normals
+	m_va->AddBuffer(*m_vb, *m_layout);
+
+	//setup indexbuffers with their materials and shaders
+	for (unsigned int i = 0; i < all_indicies.size();i++) {
+		//setting up index buffer
+		index_mat wrapper;
+
+		wrapper.m_Indices = new unsigned int[all_indicies[i].size()];
+		unsigned int indices_count = all_indicies[i].size();
+
+		for (unsigned int j = 0; j < indices_count; j++) {
+			wrapper.m_Indices[j] = all_indicies[i][j];
+		}
+
+		wrapper.m_Indices_Count = indices_count;
+		wrapper.m_ib = new IndexBuffer(wrapper.m_Indices, indices_count);
+
+		wrapper.m_mat = NULL;
+		m_MaterialWrapper.push_back(wrapper);
+	}
+}
+

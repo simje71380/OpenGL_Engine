@@ -6,9 +6,10 @@
 
 class Material {
 private:
-
+	bool m_IsLight = false;
 public:
 	Material(Shader* shader);
+	Material(Shader* shader, bool is_light);
 	~Material() {};
 
 	void Bind();

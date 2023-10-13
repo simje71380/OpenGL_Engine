@@ -111,6 +111,8 @@ void Shader::Unbind()
 int Shader::GetUniformLocation(const char* name)
 {
 	GLCall(int location = glGetUniformLocation(ProgramID, name)); //set the location of the uniform in the shader
+#ifdef _DEBUG
 	ASSERT(location != -1); //verify error
+#endif
 	return location;
 }

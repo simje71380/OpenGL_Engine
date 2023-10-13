@@ -22,4 +22,5 @@ public:
 	void Bind();
 	void Unbind();
 	int GetUniformLocation(const char* name);
+	GLuint GetProgId() { return ProgramID; };
 };

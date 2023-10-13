@@ -41,6 +41,7 @@ public:
 	~Object3D();
 	//constructor from obj file
 	Object3D(const char* file_path, MaterialsManager* MM);
+	Object3D(const char* file_path, bool is_light);
 
 	// Model matrix : an identity matrix (model will be at the origin) for most cases
 	glm::mat4 m_Model = glm::mat4(1.0f);

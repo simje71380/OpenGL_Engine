@@ -189,6 +189,8 @@
   <ItemGroup>
     <None Include="res\shaders\3DFragShader.glsl" />
     <None Include="res\shaders\3DVertexShader.glsl" />
+    <None Include="res\shaders\LightFragShader.glsl" />
+    <None Include="res\shaders\LightVertexShader.glsl" />
     <None Include="res\shaders\SimpleFragmentShader.glsl" />
     <None Include="res\shaders\SimpleVertexShader.glsl" />
     <None Include="res\shaders\TextureFragShader.glsl" />

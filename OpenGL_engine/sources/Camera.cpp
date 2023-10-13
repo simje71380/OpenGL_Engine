@@ -64,11 +64,11 @@ void Camera::Inputs(GLFWwindow* window, double deltaTime)
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
-		m_Position += (float)deltaTime * m_speed * m_Head_Is_Up ? glm::vec3(0, 1, 0) : glm::vec3(0, -1, 0);
+		m_Position += (float)deltaTime * m_speed * glm::normalize(m_Head_Is_Up ? glm::vec3(0, 1, 0) : glm::vec3(0, -1, 0));
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 	{
-		m_Position += (float)deltaTime * m_speed * m_Head_Is_Up ? glm::vec3(0, -1, 0) : glm::vec3(0, 1, 0);
+		m_Position += (float)deltaTime * m_speed * glm::normalize(m_Head_Is_Up ? glm::vec3(0, -1, 0) : glm::vec3(0, 1, 0));
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{

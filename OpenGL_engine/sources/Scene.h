@@ -13,6 +13,8 @@ public:
 	std::unordered_map<std::string, Camera*> m_Cameras;
 	Camera* main_camera = NULL;
 
+	unsigned int maxPointLights = 10; //max pointlights given to frag shader -> taking the closest
+
 	bool AddObject3D(Object3D* obj, std::string name) {
 		// Check if key exists
 		if (m_Objects.find(name) == m_Objects.end())
@@ -30,6 +32,8 @@ public:
 		if (m_PointLights.find(name) == m_PointLights.end())
 		{
 			m_PointLights.insert({ name, light });
+			if (m_PointLights.size() > MAX_POINT_LIGHTS )
+				std::cout << "there is mode than "<< MAX_POINT_LIGHTS <<" point lights some of them won't be used in rendering !!" << std::endl;
 			return true;
 		}
 		else {

@@ -107,11 +107,16 @@ int main(void)
 
         MaterialsManager MM;
         
-        //pourrait etre intéressant d'ajouter une hashmap string -> obj
         Object3D cube("res/models/cube.obj", &MM);
         scene.AddObject3D(&cube, "cube 1");
-        PointLight pointLight(glm::vec3(-2.0f, 3.0f, 0.0f));
+        PointLight pointLight(glm::vec3(-1.0f, 1.5f, 1.0f), &MM);
+        pointLight.a = 1;
+        pointLight.b = 0.3;
         scene.AddPointLight(&pointLight, "point light 1");
+        PointLight pointLight2(glm::vec3(1.0f, -1.5f, 1.0f), glm::vec3(0.1f, 1.0f, 1.0f), &MM);
+        pointLight2.a = 1;
+        pointLight2.b = 0.3;
+        scene.AddPointLight(&pointLight2, "point light 2");
         scene.AddCamera(&camera, "main camera");
 
         // Enable depth test

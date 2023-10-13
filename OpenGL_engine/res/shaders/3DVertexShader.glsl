@@ -9,13 +9,11 @@ uniform mat4 Model;
 uniform mat4 View;
 uniform mat4 Proj;
 
-out vec4 fColor;
 out vec3 fNormals;
 out vec3 FragPos;
 
 void main(){
     gl_Position = Proj * View * Model * pos;
-    fColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
     fNormals = inverse(transpose(mat3(Model))) * normals;  
 
