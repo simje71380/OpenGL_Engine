@@ -4,14 +4,18 @@
 #include "Object3D.h"
 #include "Camera.h"
 
+
+//TODO: sceneLoader : take obj file from blender and generate all objs with name tag via o blabla
+//TODO: saveSceane : saves a copy of the obj file and add model matrices
+
 class Scene {
 private : 
-
 public:
 	std::unordered_map<std::string, Object3D*> m_Objects;
 	std::unordered_map<std::string, PointLight*> m_PointLights;
 	std::unordered_map<std::string, Camera*> m_Cameras;
 	Camera* main_camera = NULL;
+	MaterialsManager MM;
 
 	unsigned int maxPointLights = 10; //max pointlights given to frag shader -> taking the closest
 
@@ -65,6 +69,15 @@ public:
 		else {
 			main_camera = pos->second;
 			return true;
+		}
+	}
+
+	bool LoadObjects(const char* file_path);
+
+	~Scene() {
+		for (std::unordered_map<std::string, Object3D*>::iterator it = m_Objects.begin(); it != m_Objects.end(); ++it)
+		{
+			delete it->second;
 		}
 	}
 };

@@ -107,9 +107,9 @@ int main(void)
 
         MaterialsManager MM;
         
-        Object3D cube("res/models/cube.obj", &MM);
-        scene.AddObject3D(&cube, "cube 1");
-        PointLight pointLight(glm::vec3(-1.0f, 1.5f, 1.0f), &MM);
+        scene.LoadObjects("res/models/sphere.obj");
+
+        PointLight pointLight(glm::vec3(-1.1f, 2.5f, 0.9f), &MM);
         pointLight.a = 1;
         pointLight.b = 0.3;
         scene.AddPointLight(&pointLight, "point light 1");

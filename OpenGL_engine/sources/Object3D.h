@@ -22,6 +22,9 @@ struct index_mat{
 
 class Object3D {
 private:
+
+
+public:
 	unsigned int m_Vertices_Count;
 	Vertex* m_Vertices;
 
@@ -36,12 +39,13 @@ private:
 
 	std::vector<Material*> materials;
 
-public:
+
 	Object3D(unsigned int vertices_count, Vertex* vertices, unsigned int* indices, unsigned int indices_count, Material *material);
 	~Object3D();
 	//constructor from obj file
 	Object3D(const char* file_path, MaterialsManager* MM);
 	Object3D(const char* file_path, bool is_light);
+	Object3D() {};
 
 	// Model matrix : an identity matrix (model will be at the origin) for most cases
 	glm::mat4 m_Model = glm::mat4(1.0f);

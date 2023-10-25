@@ -162,6 +162,7 @@
     <ClCompile Include="sources\MaterialsManager.cpp" />
     <ClCompile Include="sources\Object3D.cpp" />
     <ClCompile Include="sources\Renderer.cpp" />
+    <ClCompile Include="sources\Scene.cpp" />
     <ClCompile Include="sources\Shader.cpp" />
     <ClCompile Include="sources\stb.cpp" />
     <ClCompile Include="sources\Texture.cpp" />

@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "glm/glm.hpp"
 
-
+//TODO: take PBR inputs and switch to the correct shader
 class Material {
 private:
 	bool m_IsLight = false;
